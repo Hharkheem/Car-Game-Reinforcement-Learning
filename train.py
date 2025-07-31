@@ -1,33 +1,3 @@
-from stable_baselines3 import DQN
-from car_game_env import CarGameEnv
-from stable_baselines3.common.callbacks import EvalCallback
-
-env = CarGameEnv()
-
-model = DQN(
-    "MlpPolicy",
-    env,
-    learning_rate=0.0005,
-    buffer_size=50000,
-    batch_size=64,
-    exploration_fraction=0.3,
-    exploration_final_eps=0.05,
-    verbose=1,
-    tensorboard_log="./tensorboard/"
-)
-
-eval_callback = EvalCallback(env, best_model_save_path="./best_model/",
-                             log_path="./logs/", eval_freq=10000,
-                             deterministic=True, render=False)
-
-model.learn(total_timesteps=50_000_000, callback=eval_callback, progress_bar=True)
-model.save("car_rl_model")
-print("Model saved.")
-
-
-
-
-
 import os
 import shutil
 from stable_baselines3 import DQN
